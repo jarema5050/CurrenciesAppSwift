@@ -12,31 +12,22 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
 
     private let reuseIdentifier = "Cell"
     private let reuseIdentifierHeader = "Header"
+    private let refreshControl = UIRefreshControl()
+    var currentEndpoint = Endpoints.TableA
+    
+    var response : Response?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        self.collectionView!.register(CollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader , withReuseIdentifier: reuseIdentifierHeader)
-        self.collectionView.contentInset = UIEdgeInsets(top: 15, left: 15, bottom: 0, right: 15);
-        collectionView.backgroundColor = .white
+        refreshControl.beginRefreshing()
+        self.setupCollectionView()
+        
+        self.fetchData(path: Endpoints.TableC.rawValue)
+        
         // Do any additional setup after loading the view.
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
-
-    // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -46,12 +37,28 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 15
+        
+        return response?.rates.count ?? 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! CollectionViewCell
-    
+        
+        if let response = response {
+            let rate = response.rates[indexPath.row]
+            if let mid = rate.mid {
+                cell.setButton(mid: String(mid), date: response.effectiveDate, code: rate.code, name: rate.currency)
+            }
+            else{
+                if let bid = rate.bid {
+                    cell.setButton(mid: String(bid), date: response.effectiveDate, code: rate.code, name: rate.currency)
+                }
+            }
+        }
+       
+        
+        
         // Configure the cell
     
         return cell
@@ -72,42 +79,74 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
 
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseIdentifierHeader, for: indexPath)
-            return header
-       
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: reuseIdentifierHeader, for: indexPath) as! HeaderView
+        
+        header.delegate = self
+        return header
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 60)
-    }
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
+        return CGSize(width: view.frame.width, height: 100)
     }
 
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
+}
 
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
+extension CollectionViewController {
+    fileprivate func fetchData(path: String) {
+        Service.getTableData(completion:{ response in
+            self.response = response
+            let queue = DispatchQueue(label: "Concurrent queue", attributes: .concurrent)
+            DispatchQueue.main.sync {
+                queue.sync {
+                    self.collectionView.reloadData()
+                }
+            }
+        }, errorHandling: { () in
+            let queue = DispatchQueue(label: "Concurrent queue", attributes: .concurrent)
+            DispatchQueue.main.sync {
+                
+                queue.sync {
+                    let alert = UIAlertController(title: "Brak internetu", message: "Sprawdź połączenie sieciowe i odśwież przeciągając widok w dół.", preferredStyle: .alert)
+
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+
+                    self.present(alert, animated: true)
+                }
+            }
+            
+        }, path: path)
+        
+        self.refreshControl.endRefreshing()
+    }
     
+    func setupCollectionView(){
+        
+        setupRefreshControl()
+        registerReusableCells()
+        collectionView.backgroundColor = .white
     }
-    */
+    
+    private func registerReusableCells(){
+        self.collectionView!.register(CollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader , withReuseIdentifier: reuseIdentifierHeader)
+        self.collectionView.contentInset = UIEdgeInsets(top: 15, left: 15, bottom: 0, right: 15);
+    }
+    private func setupRefreshControl(){
+        collectionView.refreshControl = refreshControl
+        
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        refreshControl.tintColor = AppColors.lightGreen
+        refreshControl.attributedTitle = NSAttributedString(string: "Pobieranie danych...", attributes: nil)
+        refreshControl.transform = CGAffineTransform(scaleX: 1.75, y: 1.75);
+    }
+    
+    @objc private func refreshData(_ sender: Any) {
+        fetchData(path: currentEndpoint.rawValue)
+    }
+}
 
+extension CollectionViewController : DataSourceMutable {
+    func changeDataSource(endpoint: Endpoints) {
+        fetchData(path: endpoint.rawValue)
+        currentEndpoint = endpoint
+    }   
 }

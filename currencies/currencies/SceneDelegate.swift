@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let layout = UICollectionViewFlowLayout()
         let controller = CollectionViewController(collectionViewLayout: layout)
         window?.rootViewController = UINavigationController(rootViewController: controller)
+        
         window?.makeKeyAndVisible()
     }
 

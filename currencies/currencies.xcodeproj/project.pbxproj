@@ -22,6 +22,10 @@
 		D6E769BA2423EE7600FC4C79 /* CollectionViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E769B92423EE7600FC4C79 /* CollectionViewCellTests.swift */; };
 		D6E769BC2423F19200FC4C79 /* CurrencyButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E769BB2423F19200FC4C79 /* CurrencyButtonTests.swift */; };
 		D6E769BE2423F6E600FC4C79 /* TableButtonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E769BD2423F6E600FC4C79 /* TableButtonTests.swift */; };
+		D6E769C0242401FD00FC4C79 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E769BF242401FD00FC4C79 /* AppColors.swift */; };
+		D6E769C2242413F300FC4C79 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E769C1242413F300FC4C79 /* Service.swift */; };
+		D6E769C424251DF200FC4C79 /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E769C324251DF200FC4C79 /* Endpoints.swift */; };
+		D6E769C62426286B00FC4C79 /* CollectionViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E769C52426286B00FC4C79 /* CollectionViewControllerTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +58,10 @@
 		D6E769B92423EE7600FC4C79 /* CollectionViewCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCellTests.swift; sourceTree = "<group>"; };
 		D6E769BB2423F19200FC4C79 /* CurrencyButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyButtonTests.swift; sourceTree = "<group>"; };
 		D6E769BD2423F6E600FC4C79 /* TableButtonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableButtonTests.swift; sourceTree = "<group>"; };
+		D6E769BF242401FD00FC4C79 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		D6E769C1242413F300FC4C79 /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		D6E769C324251DF200FC4C79 /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
+		D6E769C52426286B00FC4C79 /* CollectionViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewControllerTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,9 +108,12 @@
 				D6E7697F2421293A00FC4C79 /* ViewController.swift */,
 				D6E769A02421503C00FC4C79 /* CollectionViewController.swift */,
 				D6E769B72423BB9100FC4C79 /* HeaderView.swift */,
+				D6E769C1242413F300FC4C79 /* Service.swift */,
 				D6E769A224215E6A00FC4C79 /* CollectionViewCell.swift */,
 				D6E769B324228EC000FC4C79 /* CurrencyButton.swift */,
 				D6E769B52422BA3D00FC4C79 /* TableButton.swift */,
+				D6E769BF242401FD00FC4C79 /* AppColors.swift */,
+				D6E769C324251DF200FC4C79 /* Endpoints.swift */,
 				D6E769872421293B00FC4C79 /* Assets.xcassets */,
 				D6E769892421293B00FC4C79 /* LaunchScreen.storyboard */,
 				D6E7698C2421293B00FC4C79 /* Info.plist */,
@@ -119,6 +130,7 @@
 				D6E769972421293C00FC4C79 /* Info.plist */,
 				D6E769BB2423F19200FC4C79 /* CurrencyButtonTests.swift */,
 				D6E769BD2423F6E600FC4C79 /* TableButtonTests.swift */,
+				D6E769C52426286B00FC4C79 /* CollectionViewControllerTest.swift */,
 			);
 			path = currenciesTests;
 			sourceTree = "<group>";
@@ -224,13 +236,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6E769B62422BA3D00FC4C79 /* TableButton.swift in Sources */,
+				D6E769C0242401FD00FC4C79 /* AppColors.swift in Sources */,
 				D6E769B82423BB9100FC4C79 /* HeaderView.swift in Sources */,
 				D6E769802421293A00FC4C79 /* ViewController.swift in Sources */,
 				D6E769B424228EC000FC4C79 /* CurrencyButton.swift in Sources */,
 				D6E7697C2421293A00FC4C79 /* AppDelegate.swift in Sources */,
 				D6E769A324215E6A00FC4C79 /* CollectionViewCell.swift in Sources */,
 				D6E769862421293A00FC4C79 /* currencies.xcdatamodeld in Sources */,
+				D6E769C2242413F300FC4C79 /* Service.swift in Sources */,
 				D6E7697E2421293A00FC4C79 /* SceneDelegate.swift in Sources */,
+				D6E769C424251DF200FC4C79 /* Endpoints.swift in Sources */,
 				D6E769A12421503C00FC4C79 /* CollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -240,6 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6E769BE2423F6E600FC4C79 /* TableButtonTests.swift in Sources */,
+				D6E769C62426286B00FC4C79 /* CollectionViewControllerTest.swift in Sources */,
 				D6E769BA2423EE7600FC4C79 /* CollectionViewCellTests.swift in Sources */,
 				D6E769962421293C00FC4C79 /* HeaderViewTests.swift in Sources */,
 				D6E769BC2423F19200FC4C79 /* CurrencyButtonTests.swift in Sources */,

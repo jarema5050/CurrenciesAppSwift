@@ -14,6 +14,8 @@ class HeaderView: UICollectionReusableView {
     private var buttonB : TableButton
     private var buttonC : TableButton
     public var stackView : UIStackView
+    public var delegate : DataSourceMutable!
+    
     override init(frame: CGRect) {
         buttonA = TableButton(name: "A")
         buttonB = TableButton(name: "B")
@@ -35,13 +37,23 @@ class HeaderView: UICollectionReusableView {
         setupTableButtonConstraints(button: buttonB)
         setupTableButtonConstraints(button: buttonC)
         backgroundColor = .white
+        
+        buttonA.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
+        buttonB.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
+        buttonC.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
+        
+        buttonA.setAsActive()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     fileprivate func setupTableButtonConstraints(button: TableButton){
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2).isActive = true
-        button.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        button.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        button.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.15).isActive = true
+        button.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8).isActive = true
+        button.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }
     
     fileprivate func setupStackViewConstraints(){
@@ -51,7 +63,16 @@ class HeaderView: UICollectionReusableView {
         stackView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    
+    @objc func buttonTapped(sender: TableButton){
+        buttonA.setAsInactive()
+        buttonB.setAsInactive()
+        buttonC.setAsInactive()
+        sender.setAsActive()
+        delegate.changeDataSource(endpoint: sender.getEndpoint())
     }
+}
+
+protocol DataSourceMutable {
+    func changeDataSource(endpoint: Endpoints)
 }

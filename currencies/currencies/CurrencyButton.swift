@@ -47,8 +47,8 @@ class CurrencyButton: UIButton {
             let label = UILabel()
             label.text = mid
             label.textAlignment = .center
-            label.textColor = UIColor(red: 45/255, green: 196/255, blue: 0/255, alpha: 1.0)
-            label.backgroundColor = UIColor(red: 241.0/255, green: 242.0/255, blue: 244.0/255, alpha: 1)
+            label.textColor = AppColors.lightGreen
+            label.backgroundColor = AppColors.lightGrey
             label.font = UIFont.systemFont(ofSize: 40, weight: UIFont.Weight(rawValue: 0))
             return label
         }()

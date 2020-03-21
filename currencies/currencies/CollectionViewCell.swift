@@ -9,22 +9,34 @@
 import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
-    private var button : CurrencyButton
+    private var button : CurrencyButton?
     override init(frame: CGRect) {
-        button = CurrencyButton(mid: "4.0749", date: "2020-20-02", code: "CHF", name: "frank francuski")
         super.init(frame: frame)
-        addSubview(button)
-        setupCurrencyButtonConstraints()
         
-        backgroundColor = UIColor(red: 231.0/255, green: 232.0/255, blue: 234.0/255, alpha: 1)
+        backgroundColor = AppColors.darkGrey
+    }
+    func setButton(mid: String, date: String, code: String, name: String){
+        button?.removeFromSuperview()
+        button = CurrencyButton(mid: mid, date: date, code: code, name: name)
+        if let button = button {
+            addSubview(button)
+            //button.addTarget(self, action: #selector(currencyButtonTapped), for: .touchUpInside)
+        }
+        setupCurrencyButtonConstraints(button: button)
     }
     
-    fileprivate func setupCurrencyButtonConstraints(){
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        button.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        button.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        button.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    @objc func currencyButtonTapped(){
+        
+    }
+    
+    fileprivate func setupCurrencyButtonConstraints(button: CurrencyButton?){
+        if let button = button {
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+            button.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+            button.topAnchor.constraint(equalTo: topAnchor).isActive = true
+            button.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        }
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -18,9 +18,10 @@ class CollectionViewCellTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testInitializer_ShouldSetupSubviewOfTypeCurrencyButton() {
+    func testSetButton_ShouldSetupSubviewOfTypeCurrencyButton() {
         let cell = CollectionViewCell(frame: .zero)
         
+        cell.setButton(mid: "", date: "", code: "", name:"")
         XCTAssert(cell.subviews.count == 2, "Count should be only 2")
         XCTAssert(type(of: cell.subviews[1]) == CurrencyButton.self, "Type of subview isn't proper")
         // This is an example of a functional test case.

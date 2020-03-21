@@ -32,5 +32,17 @@ class TableButtonTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
-
+    
+    func testSetButtonAsActive_ShouldSetGreenBorderAndDisableButton(){
+        let tableButton = TableButton(name: "Aka")
+        tableButton.setAsActive()
+        XCTAssertEqual(tableButton.isEnabled, false)
+        XCTAssert(tableButton.layer.borderColor == AppColors.lightGreen.cgColor, "Wrong color is set as border")
+    }
+    func testSetButtonAsInactive_ShouldSetGreyBorderAndUnableButton(){
+        let tableButton = TableButton(name: "Aka")
+        tableButton.setAsInactive()
+        XCTAssertEqual(tableButton.isEnabled, true)
+        XCTAssert(tableButton.layer.borderColor == AppColors.darkGrey.cgColor, "Wrong color is set as border")
+    }
 }

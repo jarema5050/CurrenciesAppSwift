@@ -17,6 +17,7 @@ class FormView: UIView {
     private let infoLabel = UILabel()
     private let confirmButton = UIButton()
     private let stackView = UIStackView()
+    private let infoStackView = UIStackView()
     public var delegate : DateChangeable!
     
     required init() {
@@ -39,14 +40,15 @@ class FormView: UIView {
         datePicker.addTarget(self, action: #selector(startDateChanged(datePicker: )), for: .valueChanged)
         })
         
+        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewTapped(gestureRecognizer:)))
         
         addGestureRecognizer(tapGestureRecognizer)
         
         setupInfoLabel()
-        
+        addSubview(infoStackView)
         setupStackViewAndContents()
-        
+        setupInfoStackViewAndContents()
         setupConfirmButton()
     }
     
@@ -82,11 +84,37 @@ class FormView: UIView {
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.widthAnchor.constraint(equalTo:widthAnchor, multiplier: 0.8).isActive = true
-        stackView.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 40).isActive = true
+        stackView.topAnchor.constraint(equalTo: infoStackView.bottomAnchor).isActive = true
         stackView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         startDateTxtField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.4).isActive = true
         endDateTxtField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.4).isActive = true
+
+    }
+    
+    func setupInfoStackViewAndContents(){
+        
+        infoStackView.axis = .horizontal
+        infoStackView.alignment = .center
+        infoStackView.distribution = .equalSpacing
+        let startLabel = UILabel()
+        let endLabel = UILabel()
+        
+        startLabel.text = "Od"
+        endLabel.text = "Do"
+        
+        startLabel.textColor = .gray
+        endLabel.textColor = .gray
+        infoStackView.addArrangedSubview(startLabel)
+        infoStackView.addArrangedSubview(endLabel)
+        
+        infoStackView.translatesAutoresizingMaskIntoConstraints = false
+        infoStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8).isActive = true
+        infoStackView.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 40).isActive = true
+        infoStackView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        
+        startLabel.widthAnchor.constraint(equalTo: infoStackView.widthAnchor, multiplier: 0.4).isActive = true
+        endLabel.widthAnchor.constraint(equalTo: infoStackView.widthAnchor, multiplier: 0.4).isActive = true
 
     }
     
@@ -111,6 +139,17 @@ class FormView: UIView {
         datePicker.datePickerMode = .date
         datePicker.minimumDate = Calendar.current.date(byAdding: .day, value: -367, to: Date())
         datePicker.maximumDate = Date()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        datePicker.date = Date()
+        startDate = datePicker.date
+        endDate = datePicker.date
+        startDateTxtField.text = dateFormatter.string(from:datePicker.date)
+        endDateTxtField.text = dateFormatter.string(from:datePicker.date)
+        endDateTxtField.adjustsFontSizeToFitWidth = true
+        startDateTxtField.adjustsFontSizeToFitWidth = true
+        
         target(datePicker)
         return datePicker
     }
@@ -141,9 +180,9 @@ class FormView: UIView {
         }
     }
     @objc func confirmButtonTapped(){
+        endEditing(true)
         if endDate != nil && startDate != nil {
             if endDate! >= startDate! {
-                print("ok")
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 delegate.passDates(startDate:dateFormatter.string(from: startDate!), endDate:dateFormatter.string(from: endDate!))

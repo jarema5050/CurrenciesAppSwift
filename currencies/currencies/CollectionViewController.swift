@@ -13,6 +13,7 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
     private let reuseIdentifier = "Cell"
     private let reuseIdentifierHeader = "Header"
     private let refreshControl = UIRefreshControl()
+    private let spinner = SpinnerViewController()
     var currentEndpoint = Endpoints.TableA
     
     var response : Response?
@@ -35,7 +36,8 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
         // self.clearsSelectionOnViewWillAppear = false
         refreshControl.beginRefreshing()
         self.setupCollectionView()
-        
+        navigationItem.titleView = createTitleStackView()
+        moveSpinner()
         self.fetchData(path: currentEndpoint.rawValue)
         
         // Do any additional setup after loading the view.
@@ -60,7 +62,6 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
         if let response = response {
             let rate = response.rates[indexPath.row]
             if let mid = rate.mid {
-                print(mid)
                 cell.setButton(mid: String(mid), bid: nil, ask: nil, date: response.effectiveDate, code: rate.code, name: rate.currency)
             }
             else{
@@ -77,7 +78,12 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout:
     UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width:(view.frame.width-36) * 0.5, height: (view.frame.width-6) * 0.5)
+        if(UIScreen.main.bounds.width >= 768){
+            return CGSize(width:(view.frame.width-36) * 0.5, height: (view.frame.width-6) * 0.5)
+        }
+        else{
+            return CGSize(width:view.frame.width-18, height: (view.frame.width-6) * 0.6)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -109,6 +115,7 @@ extension CollectionViewController {
             let queue = DispatchQueue(label: "Concurrent queue", attributes: .concurrent)
             DispatchQueue.main.sync {
                 queue.sync {
+                    self.removeSpinner()
                     self.collectionView.reloadData()
                 }
             }
@@ -117,6 +124,7 @@ extension CollectionViewController {
             DispatchQueue.main.sync {
                 
                 queue.sync {
+                    self.removeSpinner()
                     let alert = UIAlertController(title: "Brak internetu", message: "Sprawdź połączenie sieciowe i odśwież przeciągając widok w dół.", preferredStyle: .alert)
 
                     alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -166,4 +174,35 @@ extension CollectionViewController : Selectable {
         fetchData(path: endpoint.rawValue)
         currentEndpoint = endpoint
     }   
+}
+
+extension CollectionViewController {
+    func moveSpinner() {
+
+        // add the spinner view controller
+        addChild(spinner)
+        spinner.view.frame = view.frame
+        view.addSubview(spinner.view)
+        spinner.didMove(toParent: self)
+    }
+    
+    func removeSpinner(){
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 1.0))
+        spinner.willMove(toParent: nil)
+        spinner.view.removeFromSuperview()
+        spinner.removeFromParent()
+    }
+}
+extension CollectionViewController {
+    func createTitleStackView() -> UIView {
+        
+            let titleLabel = UILabel()
+            titleLabel.text = "Walutek - NBP API Consumer"
+            titleLabel.textColor = .black
+            let hStack = UIStackView(arrangedSubviews: [titleLabel])
+            hStack.spacing = 4
+            hStack.alignment = .center
+
+            return hStack
+    }
 }

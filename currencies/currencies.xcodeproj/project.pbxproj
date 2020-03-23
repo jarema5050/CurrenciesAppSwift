@@ -31,6 +31,7 @@
 		D6E769CC2427DA1D00FC4C79 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E769CB2427DA1D00FC4C79 /* CustomTextField.swift */; };
 		D6E769CE2428216900FC4C79 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E769CD2428216900FC4C79 /* FormView.swift */; };
 		D6E769D024282CDC00FC4C79 /* DateChangeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E769CF24282CDC00FC4C79 /* DateChangeable.swift */; };
+		D6E769D2242889FD00FC4C79 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6E769D1242889FD00FC4C79 /* TableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		D6E769CB2427DA1D00FC4C79 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		D6E769CD2428216900FC4C79 /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 		D6E769CF24282CDC00FC4C79 /* DateChangeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateChangeable.swift; sourceTree = "<group>"; };
+		D6E769D1242889FD00FC4C79 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				D6E7697D2421293A00FC4C79 /* SceneDelegate.swift */,
 				D6E769CD2428216900FC4C79 /* FormView.swift */,
 				D6E7697F2421293A00FC4C79 /* CurrencyViewController.swift */,
+				D6E769D1242889FD00FC4C79 /* TableViewCell.swift */,
 				D6E769CB2427DA1D00FC4C79 /* CustomTextField.swift */,
 				D6E769A02421503C00FC4C79 /* CollectionViewController.swift */,
 				D6E769B72423BB9100FC4C79 /* HeaderView.swift */,
@@ -253,6 +256,7 @@
 				D6E769B62422BA3D00FC4C79 /* TableButton.swift in Sources */,
 				D6E769C0242401FD00FC4C79 /* AppColors.swift in Sources */,
 				D6E769B82423BB9100FC4C79 /* HeaderView.swift in Sources */,
+				D6E769D2242889FD00FC4C79 /* TableViewCell.swift in Sources */,
 				D6E769D024282CDC00FC4C79 /* DateChangeable.swift in Sources */,
 				D6E769802421293A00FC4C79 /* CurrencyViewController.swift in Sources */,
 				D6E769B424228EC000FC4C79 /* CurrencyButton.swift in Sources */,

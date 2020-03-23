@@ -53,7 +53,6 @@ class CurrencyButton: UIButton {
         }()
         
         if let mid = mid {
-            print("yes1")
             midLabel = {
                 let label = UILabel()
                 label.text = mid
@@ -93,13 +92,11 @@ class CurrencyButton: UIButton {
         setupCodeLabelConstraint()
         
         if let midLabel = midLabel {
-            print("yes")
             midStackView = createStackView(content: midLabel, description: "ŚREDNI")
             addSubview(midStackView!)
             setupMidStackViewConstraint()
         }
         if let bidLabel = bidLabel {
-            print("yes")
             bidStackView = createStackView(content: bidLabel, description: "KUPNO")
             addSubview(bidStackView!)
             setupBidStackViewConstraint()

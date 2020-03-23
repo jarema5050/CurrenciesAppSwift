@@ -18,6 +18,7 @@ class TableButton: UIButton {
         label.text = "TABELA"
         label.textColor = .gray
         label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight(rawValue: 0))
         return label
     }()
     
@@ -32,7 +33,6 @@ class TableButton: UIButton {
             label.font = UIFont.systemFont(ofSize: 28, weight: UIFont.Weight(rawValue: 0))
             return label
         }()
-        
         super.init(frame: .zero)
         
         

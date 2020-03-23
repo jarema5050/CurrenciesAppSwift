@@ -51,7 +51,7 @@ class HeaderView: UICollectionReusableView {
     
     fileprivate func setupTableButtonConstraints(button: TableButton){
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.15).isActive = true
+        button.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.18).isActive = true
         button.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8).isActive = true
         button.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }

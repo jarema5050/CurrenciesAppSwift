@@ -59,7 +59,7 @@ class CurrencyViewController: UIViewController {
         formView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         formView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         formView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        formView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4).isActive = true
+        formView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
     }
     func setupTableView() {
         view.addSubview(tableView)
@@ -67,7 +67,7 @@ class CurrencyViewController: UIViewController {
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.95).isActive = true
         tableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        tableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
+        tableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4).isActive = true
     }
     func getEndpoint(startDate: String, endDate: String, parentEndpoint: Endpoints, code: String) -> String {
         var char = ""
@@ -168,7 +168,6 @@ class CurrencyViewController: UIViewController {
         let headerView = UIView()
         headerView.backgroundColor = AppColors.lightGrey
         view.addSubview(headerView)
-
         let stackView : UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .horizontal
@@ -223,17 +222,16 @@ class CurrencyViewController: UIViewController {
         }
         
         headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.topAnchor.constraint(equalTo: formView.bottomAnchor).isActive = true
         headerView.bottomAnchor.constraint(equalTo: tableView.topAnchor).isActive = true
         headerView.widthAnchor.constraint(equalTo: tableView.widthAnchor).isActive = true
-        headerView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor).isActive = true
-        headerView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.05).isActive = true
+        headerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.topAnchor.constraint(equalTo: headerView.topAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
         stackView.widthAnchor.constraint(equalTo: tableView.widthAnchor, multiplier: 0.9).isActive = true
         stackView.centerXAnchor.constraint(equalTo: tableView.centerXAnchor).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor).isActive = true
     }
     
 }

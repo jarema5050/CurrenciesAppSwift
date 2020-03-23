@@ -17,6 +17,18 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
     
     var response : Response?
     
+    private let decode : (Data) -> Any? = { (data) in
+        do {
+            let response = try JSONDecoder().decode([Response].self, from: data)
+            return response[0]
+        }
+        catch let error as NSError
+        {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Uncomment the following line to preserve selection between presentations
@@ -24,7 +36,7 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
         refreshControl.beginRefreshing()
         self.setupCollectionView()
         
-        self.fetchData(path: Endpoints.TableC.rawValue)
+        self.fetchData(path: currentEndpoint.rawValue)
         
         // Do any additional setup after loading the view.
     }
@@ -48,16 +60,15 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
         if let response = response {
             let rate = response.rates[indexPath.row]
             if let mid = rate.mid {
-                cell.setButton(mid: String(mid), date: response.effectiveDate, code: rate.code, name: rate.currency)
+                print(mid)
+                cell.setButton(mid: String(mid), bid: nil, ask: nil, date: response.effectiveDate, code: rate.code, name: rate.currency)
             }
             else{
-                if let bid = rate.bid {
-                    cell.setButton(mid: String(bid), date: response.effectiveDate, code: rate.code, name: rate.currency)
-                }
+                cell.setButton(mid: nil, bid: String(rate.bid!), ask: String(rate.ask!), date: response.effectiveDate, code: rate.code, name: rate.currency)
             }
         }
        
-        
+        cell.delegate = self
         
         // Configure the cell
     
@@ -91,9 +102,10 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
 }
 
 extension CollectionViewController {
+    
     fileprivate func fetchData(path: String) {
         Service.getTableData(completion:{ response in
-            self.response = response
+            self.response = response as! Response
             let queue = DispatchQueue(label: "Concurrent queue", attributes: .concurrent)
             DispatchQueue.main.sync {
                 queue.sync {
@@ -113,7 +125,7 @@ extension CollectionViewController {
                 }
             }
             
-        }, path: path)
+        },decode: decode, path: path)
         
         self.refreshControl.endRefreshing()
     }
@@ -144,7 +156,12 @@ extension CollectionViewController {
     }
 }
 
-extension CollectionViewController : DataSourceMutable {
+extension CollectionViewController : Selectable {
+    
+    func chooseCurrency(code: String) {
+        navigationController?.pushViewController(CurrencyViewController(code: code, endpoint: currentEndpoint), animated: false)
+    }
+    
     func changeDataSource(endpoint: Endpoints) {
         fetchData(path: endpoint.rawValue)
         currentEndpoint = endpoint

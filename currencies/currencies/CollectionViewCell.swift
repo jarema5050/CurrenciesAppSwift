@@ -10,23 +10,26 @@ import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
     private var button : CurrencyButton?
+    public var delegate : Selectable!
+    public var code : String!
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = AppColors.darkGrey
+        backgroundColor = AppColors.lightGrey
     }
-    func setButton(mid: String, date: String, code: String, name: String){
+    func setButton(mid: String?,  bid: String?, ask: String?, date: String, code: String, name: String){
         button?.removeFromSuperview()
-        button = CurrencyButton(mid: mid, date: date, code: code, name: name)
+        button = CurrencyButton(mid: mid, bid: bid, ask: ask, date: date, code: code, name: name)
+        self.code = code
         if let button = button {
             addSubview(button)
-            //button.addTarget(self, action: #selector(currencyButtonTapped), for: .touchUpInside)
+            button.addTarget(self, action: #selector(currencyButtonTapped), for: .touchUpInside)
         }
         setupCurrencyButtonConstraints(button: button)
     }
     
     @objc func currencyButtonTapped(){
-        
+        self.delegate.chooseCurrency(code: code)
     }
     
     fileprivate func setupCurrencyButtonConstraints(button: CurrencyButton?){

@@ -14,7 +14,7 @@ class HeaderView: UICollectionReusableView {
     private var buttonB : TableButton
     private var buttonC : TableButton
     public var stackView : UIStackView
-    public var delegate : DataSourceMutable!
+    public var delegate : Selectable!
     
     override init(frame: CGRect) {
         buttonA = TableButton(name: "A")
@@ -71,8 +71,4 @@ class HeaderView: UICollectionReusableView {
         sender.setAsActive()
         delegate.changeDataSource(endpoint: sender.getEndpoint())
     }
-}
-
-protocol DataSourceMutable {
-    func changeDataSource(endpoint: Endpoints)
 }

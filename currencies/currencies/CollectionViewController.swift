@@ -171,6 +171,7 @@ extension CollectionViewController : Selectable {
     }
     
     func changeDataSource(endpoint: Endpoints) {
+        moveSpinner()
         fetchData(path: endpoint.rawValue)
         currentEndpoint = endpoint
     }   

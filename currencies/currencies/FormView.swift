@@ -67,7 +67,7 @@ class FormView: UIView {
         confirmButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         confirmButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 50).isActive = true
         //confirmButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        confirmButton.isEnabled = false
+        //confirmButton.isEnabled = false
         confirmButton.addTarget(self, action: #selector(confirmButtonTapped), for: .touchUpInside)
     }
     
@@ -159,7 +159,7 @@ class FormView: UIView {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         startDate = datePicker.date
         startDateTxtField.text = dateFormatter.string(from:datePicker.date)
-        activateConfirmButton()
+        //activateConfirmButton()
     }
     
     @objc func endDateChanged(datePicker: UIDatePicker){
@@ -167,7 +167,7 @@ class FormView: UIView {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         endDate = datePicker.date
         endDateTxtField.text = dateFormatter.string(from:datePicker.date)
-        activateConfirmButton()
+        //activateConfirmButton()
     }
     
     func activateConfirmButton(){
@@ -181,6 +181,7 @@ class FormView: UIView {
     }
     @objc func confirmButtonTapped(){
         endEditing(true)
+        print("hello")
         if endDate != nil && startDate != nil {
             if endDate! >= startDate! {
                 let dateFormatter = DateFormatter()
